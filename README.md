@@ -29,9 +29,11 @@ N/A
 
 ## Credits
 
-UCF coding bootcamp for the starter code
+I recieved the starter code from UCF bootcamp.
 
 ## Deployed Link
+
+https://akcodes29.github.io/Work-Day-Scheduler/
 
 ## Screenshot
 
