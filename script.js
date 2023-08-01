@@ -26,9 +26,6 @@ $(function () {
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
 
-
-// var currentHour = moment().format('LT');
-
 function updateTimeBlocks() {
   const currentHour = new Date().getHours();
 
@@ -46,7 +43,6 @@ function updateTimeBlocks() {
     }
   });
 }
-
 updateTimeBlocks();
 
   //
@@ -54,7 +50,6 @@ updateTimeBlocks();
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
-
 function setTextareaValuesFromLocalStorage() {
   const timeBlocks = document.querySelectorAll('.time-block');
   timeBlocks.forEach(block => {
@@ -85,21 +80,17 @@ textareas.forEach(textarea => {
   textarea.addEventListener('change', saveTextareaInputToLocalStorage);
 });
 
-
 //retrieve saved user input NOT WORKING!
 const savedScheduleItems = localStorage.getItem("textareaValue");
-
 if (savedScheduleItems) {
   console.log("Saved user input:", savedScheduleItems);
 } else {
   console.log("No user input was found in localStorage");
 }
 
-  // TODO: Add code to display the current date in the header of the page.
-  
+  // TODO: Add code to display the current date in the header of the page. 
 var reformatDate = dayjs().format('dddd, MMMM D YYYY');
 $('#currentDay').text(reformatDate); 
-
 
 });
 

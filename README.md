@@ -25,8 +25,14 @@ THEN the saved events persist
 
 ## License
 
+N/A
+
 ## Credits
+
+UCF coding bootcamp for the starter code
 
 ## Deployed Link
 
 ## Screenshot
+
+![screenshot of page](image.png)
