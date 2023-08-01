@@ -9,14 +9,11 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
 
-  var scheduleItems = [];
   
   $('.saveBtn').on('click', function() {
-    scheduleItems.push({
-      name: 'Item',
-      description: $(this).prev().val()
-    })
-    localStorage.setItem("scheduleItem", JSON.stringify(scheduleItems));
+    let description =  $(this).prev().val()
+    let hour = $(this).parent().attr("id").substring(5)
+    localStorage.setItem(hour, description)
   })
 
   //
@@ -27,65 +24,37 @@ $(function () {
   // current hour in 24-hour time?
 
 function updateTimeBlocks() {
-  const currentHour = new Date().getHours();
-
-  const timeBlocks = document.querySelectorAll('.time-block');
-  timeBlocks.forEach(timeBlock => {
-    const hour = parseInt(timeBlock.id.split('-')[1], 10);
-    timeBlock.classList.remove('past', 'present', 'future');
-
-    if (hour < currentHour) {
-      timeBlock.classList.add('past');
-    } else if (hour === currentHour) {
-      timeBlock.classList.add('present');
-    } else {
-      timeBlock.classList.add('future');
-    }
-  });
+  const currentHour = dayjs().hour();
+    $(".time-block").each(function() {
+      let blockHour = Number($(this).attr("id").substring(5))
+      if(blockHour < currentHour) {
+        $(this).addClass("past");
+        $(this).removeClass("present");
+        $(this).removeClass("future");
+      }
+      else if(blockHour == currentHour) {
+        $(this).addClass("present");
+        $(this).removeClass("past");
+        $(this).removeClass("future");
+      }
+      else{
+        $(this).addClass("future");
+        $(this).removeClass("present");
+        $(this).removeClass("past");
+      }
+    })
 }
 updateTimeBlocks();
+setInterval(updateTimeBlocks, 60000);
 
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
-function setTextareaValuesFromLocalStorage() {
-  const timeBlocks = document.querySelectorAll('.time-block');
-  timeBlocks.forEach(block => {
-    const blockId = block.id;
-    const textarea = block.querySelector('textarea');
-    const savedValue = localStorage.getItem(blockId);
 
-    if (savedValue !== null) {
-      textarea.value = savedValue;
-    }
-  });
-}
-
-window.addEventListener('load', setTextareaValuesFromLocalStorage);
-
-function saveTextareaInputToLocalStorage() {
-  const timeBlocks = document.querySelectorAll('.time-block');
-  timeBlocks.forEach(block => {
-    const blockId = block.id;
-    const textarea = block.querySelector('textarea');
-    const textareaValue = textarea.value;
-    localStorage.setItem(blockId, textareaValue);
-  });
-}
-
-const textareas = document.querySelectorAll('.time-block textarea');
-textareas.forEach(textarea => {
-  textarea.addEventListener('change', saveTextareaInputToLocalStorage);
-});
-
-//retrieve saved user input NOT WORKING!
-const savedScheduleItems = localStorage.getItem("textareaValue");
-if (savedScheduleItems) {
-  console.log("Saved user input:", savedScheduleItems);
-} else {
-  console.log("No user input was found in localStorage");
+for(let i = 9; i <= 17; i++) {
+  $("#hour-" + i + " .description").val(localStorage.getItem(i))
 }
 
   // TODO: Add code to display the current date in the header of the page. 
