@@ -27,7 +27,7 @@ $(function () {
   // current hour in 24-hour time?
 
 
-var currentHour = moment().format('LT');
+// var currentHour = moment().format('LT');
 
 function updateTimeBlocks() {
   const currentHour = new Date().getHours();
@@ -55,21 +55,51 @@ updateTimeBlocks();
   // attribute of each time-block be used to do this?
   //
 
-  
+function setTextareaValuesFromLocalStorage() {
+  const timeBlocks = document.querySelectorAll('.time-block');
+  timeBlocks.forEach(block => {
+    const blockId = block.id;
+    const textarea = block.querySelector('textarea');
+    const savedValue = localStorage.getItem(blockId);
+
+    if (savedValue !== null) {
+      textarea.value = savedValue;
+    }
+  });
+}
+
+window.addEventListener('load', setTextareaValuesFromLocalStorage);
+
+function saveTextareaInputToLocalStorage() {
+  const timeBlocks = document.querySelectorAll('.time-block');
+  timeBlocks.forEach(block => {
+    const blockId = block.id;
+    const textarea = block.querySelector('textarea');
+    const textareaValue = textarea.value;
+    localStorage.setItem(blockId, textareaValue);
+  });
+}
+
+const textareas = document.querySelectorAll('.time-block textarea');
+textareas.forEach(textarea => {
+  textarea.addEventListener('change', saveTextareaInputToLocalStorage);
+});
 
 
-//   $(".saveBtn").click(function (event) {
-//     event.preventDefault();
-//     var value = $(this).siblings(".time-block").val();
-//     var time = $(this).parent().attr("id").split("-")[1];
-//     localStorage.setItem(time, value);
-//   });
+//retrieve saved user input NOT WORKING!
+const savedScheduleItems = localStorage.getItem("textareaValue");
 
-//  $("hour-09 .time-block").val(localStorage.getItem("09"));
+if (savedScheduleItems) {
+  console.log("Saved user input:", savedScheduleItems);
+} else {
+  console.log("No user input was found in localStorage");
+}
 
   // TODO: Add code to display the current date in the header of the page.
-  var dayStamp = moment().format('dddd' + ',' + ' MMMM Do');
-  $('#currentDay').text(dayStamp);
+  
+var reformatDate = dayjs().format('dddd, MMMM D YYYY, h:mm:ss a');
+$('#currentDay').text(reformatDate); 
+
 
 });
 
